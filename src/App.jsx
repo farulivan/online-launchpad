@@ -76,8 +76,9 @@ function App() {
   ];
 
   const [samples, setSamples] = useState(musicSample)
+  const [display, setDisplay] = useState('')
 
-  const playSound = (key) => {
+  const playSound = (key, id) => {
     setSamples(prevSamples => prevSamples.map(sample => (
       sample.keyTrigger === key ? 
         {...sample, isActive: !sample.isActive} 
@@ -86,6 +87,7 @@ function App() {
     const audio = document.getElementById(key)
     audio.currentTime = 0
     audio.play()
+    setDisplay(id)
     setTimeout(() => {
       setSamples(prevSamples => prevSamples.map(sample => (
         sample.keyTrigger === key ? 
@@ -102,7 +104,7 @@ function App() {
         id = {sample.id}
         key = {sample.id}
         src = {sample.src}
-        playSound = {() => playSound(sample.keyTrigger)}
+        playSound = {() => playSound(sample.keyTrigger, sample.id)}
         isActive = {sample.isActive}
       />
     )
@@ -116,7 +118,7 @@ function App() {
               <h1 className="text-2xl">LaunchPad</h1>
               <p className="text-sm px-5 my-1">Press key to play and combine it!</p>
             </div>
-            <h1 id="display" className="text-center">Display will be here!</h1>
+            <h1 id="display" className="rounded-lg text-sm p-3 m-5 h-11 flex items-center justify-center  bg-slate-800 text-cyan-500">{display}</h1>
             <div className="grid grid-cols-3 my-5 gap-4 p-6 md:gap-7 md:p-2 text-center">
               {pads}
             </div>
