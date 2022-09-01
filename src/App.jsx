@@ -2,10 +2,9 @@ import { useEffect, useState } from 'react'
 import Pad from './components/Pad'
 
 function App() {
-  const [display, setDisplay] = useState('')
-  const [active, setActive] = useState(false)
   
   document.addEventListener('keydown', (e) => {
+    if(e.repeat) return
     playSound(e.key.toUpperCase())
   })
 
@@ -15,80 +14,96 @@ function App() {
       keyCode: 81,
       keyTrigger: 'Q',
       id: 'AcidKindaSynth',
-      src: 'AcidKindaSynth.wav'
+      src: 'AcidKindaSynth.wav',
+      isActive: false
     },
     {
       keyCode: 87,
       keyTrigger: 'W',
       id: 'BouncyDrums',
-      src: 'BouncyDrums.wav'
+      src: 'BouncyDrums.wav',
+      isActive: false
     },
     {
       keyCode: 69,
       keyTrigger: 'E',
       id: 'CyberpunkDrums',
-      src: 'CyberpunkDrums.wav'
+      src: 'CyberpunkDrums.wav',
+      isActive: false
     },
     {
       keyCode: 65,
       keyTrigger: 'A',
       id: 'CyberpunkUplifter',
-      src: 'CyberpunkUplifter.wav'
+      src: 'CyberpunkUplifter.wav',
+      isActive: false
     },
     {
       keyCode: 83,
       keyTrigger: 'S',
       id: 'MachineGunBass',
-      src: 'MachineGunBass.wav'
+      src: 'MachineGunBass.wav',
+      isActive: false
     },
     {
       keyCode: 68,
       keyTrigger: 'D',
       id: 'PercussiveSynth',
-      src: 'PercussiveSynth.wav'
+      src: 'PercussiveSynth.wav',
+      isActive: false
     },
     {
       keyCode: 90,
       keyTrigger: 'Z',
       id: "PunchierKick",
-      src: 'PunchierKick.wav'
+      src: 'PunchierKick.wav',
+      isActive: false
     },
     {
       keyCode: 88,
       keyTrigger: 'X',
       id: 'SmackSnare',
-      src: 'SmackSnare.wav'
+      src: 'SmackSnare.wav',
+      isActive: false
     },
     {
       keyCode: 67,
       keyTrigger: 'C',
       id: 'WobbleArpBass',
-      src: 'WobbleArpBass.wav'
+      src: 'WobbleArpBass.wav',
+      isActive: false
     }
   ];
 
   const [samples, setSamples] = useState(musicSample)
 
   const playSound = (key) => {
-    setActive(prev => !prev)
+    setSamples(prevSamples => prevSamples.map(sample => (
+      sample.keyTrigger === key ? 
+        {...sample, isActive: !sample.isActive} 
+          : sample
+    )))
     const audio = document.getElementById(key)
     audio.currentTime = 0
     audio.play()
     setTimeout(() => {
-        setActive(prev => !prev)
+      setSamples(prevSamples => prevSamples.map(sample => (
+        sample.keyTrigger === key ? 
+          {...sample, isActive: !sample.isActive} 
+            : sample
+      )))
       }, 200)
   }
 
   const pads = samples.map(sample => {
     return (
       <Pad
-        keyCode = {sample.keyCode}
         keyTrigger = {sample.keyTrigger}
         id = {sample.id}
         key = {sample.id}
         src = {sample.src}
         playSound = {() => playSound(sample.keyTrigger)}
-        isActive = {active}
+        isActive = {sample.isActive}
       />
     )
   })

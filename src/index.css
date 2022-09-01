@@ -4,11 +4,11 @@
 
 @layer components {
   .drum-pad {
-    @apply rounded-lg text-xl p-7 h-11 flex items-center justify-center drop-shadow-md shadow-md
+    @apply rounded-lg text-xl p-7 h-11 flex items-center justify-center drop-shadow-md shadow-md cursor-pointer
   }
   
   .base-color {
-    @apply bg-indigo-900 hover:bg-indigo-800
+    @apply bg-indigo-900 hover:bg-slate-800
   }
 
   .cyan-glow {
