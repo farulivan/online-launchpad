@@ -118,7 +118,7 @@ function App() {
               <h1 className="text-2xl">LaunchPad</h1>
               <p className="text-sm px-5 my-1">Press key to play and combine it!</p>
             </div>
-            <h1 id="display" className="rounded-lg text-sm p-3 m-5 h-11 flex items-center justify-center  bg-slate-800 text-cyan-500">{display}</h1>
+            <div id="display" className="rounded-lg text-sm p-3 m-5 h-11 flex items-center justify-center  bg-slate-800 text-cyan-500">{display}</div>
             <div className="grid grid-cols-3 my-5 gap-4 p-6 md:gap-7 md:p-2 text-center">
               {pads}
             </div>
