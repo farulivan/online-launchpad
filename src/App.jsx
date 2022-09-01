@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react'
+import Pad from './components/Pad'
 
 function App() {
   const [display, setDisplay] = useState('')
-
-  // -- to Test when react Render
-  // useEffect(() => {
-  //   console.log('render')
-  // })
+  const [active, setActive] = useState(false)
   
+  document.addEventListener('keydown', (e) => {
+    playSound(e.key.toUpperCase())
+  })
+
+
   const musicSample = [
     {
       keyCode: 81,
@@ -65,49 +67,44 @@ function App() {
     }
   ];
 
-  const LaunchPadContainer = () => {
-    
-    document.addEventListener('keyup', (e) => {
-      const keyPad = e.key.toUpperCase()
-      const sound = document.getElementById(keyPad)
-      setDisplay(sound.parentElement.id)
-      sound.play()
-      
-    })
+  const [samples, setSamples] = useState(musicSample)
 
-    const handleClick = (e) => {
-      const keyPad = e.target.innerText
-      const sound = document.getElementById(keyPad)
-      setDisplay(sound.parentElement.id)
-      sound.play()
-    }
-
-    const launchPad = musicSample.map(data => {
-
-      return (
-        <button onClick={handleClick} type="button" key={data.keyTrigger} id={data.id} className="drum-pad cyan-glow">
-          <audio id={data.keyTrigger} className="clip" key={data.keyCode} src={data.src} type="audio/mpeg">
-          </audio>  
-          {data.keyTrigger}
-        </button>
-      )
-    })
-      
-    return (  
-      <div>{launchPad}</div>
-    )
+  const playSound = (key) => {
+    setActive(prev => !prev)
+    const audio = document.getElementById(key)
+    audio.currentTime = 0
+    audio.play()
+    setTimeout(() => {
+        setActive(prev => !prev)
+      }, 200)
   }
+
+  const pads = samples.map(sample => {
+    return (
+      <Pad
+        keyCode = {sample.keyCode}
+        keyTrigger = {sample.keyTrigger}
+        id = {sample.id}
+        key = {sample.id}
+        src = {sample.src}
+        playSound = {() => playSound(sample.keyTrigger)}
+        isActive = {active}
+      />
+    )
+  })
 
   return (
     <div id="drum-machine" className="App">
-        <div className="flex h-screen bg-slate-500 p-10">
-          <div className="m-auto bg-slate-900">
-            <div className="grid grid-cols-3 gap-2 p-5">
-              <LaunchPadContainer />
+        <div className="h-screen flex justify-center items-center bg-indigo-300">
+          <div className="max-w-lg rounded-xl p-8 bg-indigo-600 text-white">
+            <div className="Header text-center">
+              <h1 className="text-2xl">LaunchPad</h1>
+              <p className="text-sm px-5 my-1">Press key to play and combine it!</p>
             </div>
-            <div>
-              <h1 id="display" className="text-slate-200">{display}</h1>
-            </div> 
+            <h1 id="display" className="text-center">Display will be here!</h1>
+            <div className="grid grid-cols-3 my-5 gap-4 p-6 md:gap-7 md:p-2 text-center">
+              {pads}
+            </div>
           </div>
         </div>
     </div>

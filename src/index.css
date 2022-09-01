@@ -4,14 +4,18 @@
 
 @layer components {
   .drum-pad {
-    @apply text-white font-medium rounded-md text-sm px-5 py-2.5 text-center mr-2 mb-2
-     bg-slate-700 shadow-md shadow-slate-900 hover:bg-slate-800
-  },
+    @apply rounded-lg text-xl p-7 h-11 flex items-center justify-center drop-shadow-md shadow-md
+  }
+  
+  .base-color {
+    @apply bg-indigo-900 hover:bg-indigo-800
+  }
+
   .cyan-glow {
-    @apply  
-    focus:bg-gradient-to-r focus:from-cyan-400 focus:via-cyan-500 focus:to-cyan-600 
-    focus:shadow-2xl focus:shadow-cyan-500/50
-  },
+    @apply bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 
+   shadow-cyan-500/50
+  }
+
   .purple-glow {
     @apply
     focus:bg-gradient-to-r focus:from-purple-500 focus:via-purple-600 focus:to-purple-700  
